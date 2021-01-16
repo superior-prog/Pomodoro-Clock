@@ -10,7 +10,7 @@ class Break extends StatefulWidget {
 }
 
 class _BreakState extends State<Break> {
-  double percent = 0.0;
+  double percent = 0.0, flag = 0.0;
   int timeInMinute = 5;
   int timeInSec = 5 * 60;
 
@@ -20,7 +20,7 @@ class _BreakState extends State<Break> {
 
   bool isRunning = false;
 
-  String _ConvertToTime(count) {
+  String _convertToTime(count) {
     int minutes = (count / 60).floor();
     String minutesStr = minutes.toString();
     int seconds = count % 60;
@@ -32,32 +32,31 @@ class _BreakState extends State<Break> {
     return timeStr;
   }
 
-  _StartTimer() {
-    double SecPercent = (timeInSec / 100);
+  _startTimer() {
+    double percentage = 1 / timeInSec;
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         isRunning = true;
         if (timeInSec > 0) {
           timeInSec--;
-          _ConvertToTime(timeInSec);
+          _convertToTime(timeInSec);
           if (timeInSec % 60 == 0) {
             timeInSec--;
-            // percent += 0.15;
           }
-          if (timeInSec % SecPercent == 0) {
-            if (percent < 1) {
-              percent += 0.15;
-            } else {
-              percent = 1;
-            }
-            print(percent);
+
+          flag += percentage;
+          if (flag < 1) {
+            percent += percentage;
+          } else {
+            percent = 1;
           }
+          print(percent);
         } else {
           setState(() {
-            percent = 0.0;
+            percent = flag = 0.0;
             isRunning = false;
-            timeStr = _ConvertToTime(timeInMinute * 60);
+            timeStr = _convertToTime(timeInMinute * 60);
             timer.cancel();
           });
         }
@@ -65,20 +64,20 @@ class _BreakState extends State<Break> {
     });
   }
 
-  _PauseTimer() {
+  _pauseTimer() {
     setState(() {
       isRunning = false;
       timer.cancel();
     });
   }
 
-  _ResetTimer() {
+  _resetTimer() {
     setState(() {
       percent = 0.0;
       timeInMinute = 5;
       timeInSec = 5 * 60;
       isRunning = false;
-      timeStr = _ConvertToTime(timeInSec);
+      timeStr = _convertToTime(timeInSec);
 
       if (timer != null) {
         timer.cancel();
@@ -96,7 +95,7 @@ class _BreakState extends State<Break> {
 
   @override
   void initState() {
-    timeStr = _ConvertToTime(timeInSec);
+    timeStr = _convertToTime(timeInSec);
     super.initState();
   }
 
@@ -170,7 +169,7 @@ class _BreakState extends State<Break> {
                                 if (timeInMinute > 1 && !isRunning) {
                                   timeInMinute--;
                                   timeInSec = timeInMinute * 60;
-                                  timeStr = _ConvertToTime(timeInSec);
+                                  timeStr = _convertToTime(timeInSec);
                                 }
                               });
                             }),
@@ -187,7 +186,7 @@ class _BreakState extends State<Break> {
                                 if (timeInMinute < 60 && !isRunning) {
                                   timeInMinute++;
                                   timeInSec = timeInMinute * 60;
-                                  timeStr = _ConvertToTime(timeInSec);
+                                  timeStr = _convertToTime(timeInSec);
                                 }
                               });
                             }),
@@ -199,7 +198,7 @@ class _BreakState extends State<Break> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: isRunning ? _PauseTimer : _StartTimer,
+                            onTap: isRunning ? _pauseTimer : _startTimer,
                             child: Container(
                               padding: EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
@@ -222,7 +221,7 @@ class _BreakState extends State<Break> {
                           ),
                           SizedBox(width: 20.0),
                           GestureDetector(
-                            onTap: _ResetTimer,
+                            onTap: _resetTimer,
                             child: Container(
                               padding: EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
