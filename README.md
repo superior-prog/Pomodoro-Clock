@@ -3,9 +3,9 @@
 A new Flutter application.
 
 ##### Session Page
-![logo](/ss/session.png?raw=true "Logo")
+![logo](/ss/session.jpg?raw=true "sesssion")
 ##### Break Page
-![logo](/ss/break.png?raw=true "Logo")
+![logo](/ss/break.jpg?raw=true "break")
 
 ## Getting Started
 
