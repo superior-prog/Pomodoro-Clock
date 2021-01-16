@@ -1,4 +1,4 @@
-# pomodoro
+# Pomodoro Clock
 
 A new Flutter application.
 
