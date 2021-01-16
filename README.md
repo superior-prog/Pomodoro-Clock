@@ -7,6 +7,10 @@ A new Flutter application.
 ##### Break Page
 <img src="ss/break.jpg" width="200">
 
+##### Session Page         |##### Break Page
+:-------------------------:|:-------------------------:
+<img src="ss/session.jpg" width="200">  |  <img src="ss/break.jpg" width="200">
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
