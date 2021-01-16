@@ -2,12 +2,7 @@
 
 A new Flutter application.
 
-##### Session Page
-<img src="ss/session.jpg" width="200">
-##### Break Page
-<img src="ss/break.jpg" width="200">
-
-##### Session Page         |##### Break Page
+ Session Page          Break Page
 :-------------------------:|:-------------------------:
 <img src="ss/session.jpg" width="200">  |  <img src="ss/break.jpg" width="200">
 
