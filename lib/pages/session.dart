@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pomodoro/widgets/circle_progress.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class Session extends StatefulWidget {
   @override
@@ -13,7 +13,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
   AnimationController progressController;
   Animation<double> animation;
 
-  double percent = 0.0;
+  double percent = 0.0, flag = 0.0;
   int timeInMinute = 25;
   int timeInSec = 25 * 60;
 
@@ -23,7 +23,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
 
   bool isRunning = false;
 
-  String _ConvertToTime(count) {
+  String _convertToTime(count) {
     int minutes = (count / 60).floor();
     String minutesStr = minutes.toString();
     int seconds = count % 60;
@@ -34,50 +34,49 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
     return timeStr;
   }
 
-  _StartTimer() {
-    double SecPercent = (timeInSec / 100);
+  void _startTimer() {
+    double percentage = 1 / timeInSec;
 
     timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         isRunning = true;
         if (timeInSec > 0) {
           timeInSec--;
-          _ConvertToTime(timeInSec);
+          _convertToTime(timeInSec);
           if (timeInSec % 60 == 0) {
             timeInSec--;
-            // percent += 0.15;
           }
-          if (timeInSec % SecPercent == 0) {
-            if (percent < 1) {
-              percent += 0.015;
-            } else {
-              percent = 1;
-            }
+
+          flag += percentage;
+          if (flag < 1) {
+            percent += percentage;
+          } else {
+            percent = 1;
           }
         } else {
           percent = 0.0;
           timeInMinute = 25;
-          timeStr = _ConvertToTime(timeInMinute * 60);
+          timeStr = _convertToTime(timeInMinute * 60);
           timer.cancel();
         }
       });
     });
   }
 
-  _PauseTimer() {
+  void _pauseTimer() {
     setState(() {
       isRunning = false;
       timer.cancel();
     });
   }
 
-  _ResetTimer() {
+  void _resetTimer() {
     setState(() {
-      percent = 0.0;
+      percent = flag = 0.0;
       timeInMinute = 25;
       timeInSec = 25 * 60;
       isRunning = false;
-      timeStr = _ConvertToTime(timeInSec);
+      timeStr = _convertToTime(timeInSec);
 
       if (timer != null) {
         timer.cancel();
@@ -102,7 +101,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
       ..addListener(() {
         setState(() {});
       });
-    timeStr = _ConvertToTime(timeInSec);
+    timeStr = _convertToTime(timeInSec);
   }
 
   @override
@@ -119,32 +118,20 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Expanded(
-          //   child: CircularPercentIndicator(
-          //     percent: percent,
-          //     circularStrokeCap: CircularStrokeCap.round,
-          //     animation: true,
-          //     animateFromLastPercent: true,
-          //     radius: 200.0,
-          //     lineWidth: 10.0,
-          //     progressColor: Colors.white,
-          //     center: Text(
-          //       timeStr,
-          //       style: TextStyle(
-          //         color: Colors.white,
-          //         fontSize: 60.0,
-          //       ),
-          //     ),
-          //   ),
-          // ),
           Expanded(
-            child: CustomPaint(
-              foregroundPainter: CircleProgress(animation.value),
-              child: Container(
-                width: 200,
-                height: 200,
-                child: Center(
-                  child: Text(animation.value.toString()),
+            child: CircularPercentIndicator(
+              percent: percent,
+              circularStrokeCap: CircularStrokeCap.round,
+              animation: true,
+              animateFromLastPercent: true,
+              radius: 200.0,
+              lineWidth: 10.0,
+              progressColor: Colors.white,
+              center: Text(
+                timeStr,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 60.0,
                 ),
               ),
             ),
@@ -186,6 +173,8 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
                               setState(() {
                                 if (timeInMinute > 1 && !isRunning) {
                                   timeInMinute--;
+                                  timeInSec = timeInMinute * 60;
+                                  timeStr = _convertToTime(timeInSec);
                                 }
                               });
                             }),
@@ -199,6 +188,8 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
                               setState(() {
                                 if (timeInMinute < 60 && !isRunning) {
                                   timeInMinute++;
+                                  timeInSec = timeInMinute * 60;
+                                  timeStr = _convertToTime(timeInSec);
                                 }
                               });
                             }),
@@ -210,7 +201,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
-                            onTap: isRunning ? _PauseTimer : _StartTimer,
+                            onTap: isRunning ? _pauseTimer : _startTimer,
                             child: Container(
                               padding: EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
@@ -233,7 +224,7 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
                           ),
                           SizedBox(width: 20.0),
                           GestureDetector(
-                            onTap: _ResetTimer,
+                            onTap: _resetTimer,
                             child: Container(
                               padding: EdgeInsets.all(12.0),
                               decoration: BoxDecoration(
