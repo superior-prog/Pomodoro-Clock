@@ -1,6 +1,11 @@
-# pomodoro
+# Pomodoro Clock
 
 A new Flutter application.
+
+##### Session Page
+![logo](/ss/session.png?raw=true "Logo")
+##### Break Page
+![logo](/ss/break.png?raw=true "Logo")
 
 ## Getting Started
 
