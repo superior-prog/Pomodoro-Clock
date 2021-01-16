@@ -5,7 +5,7 @@ A new Flutter application.
 ##### Session Page
 <img src="ss/session.jpg" width="200">
 ##### Break Page
-![logo](/ss/break.jpg?raw=true "break")
+<img src="ss/break.jpg" width="200">
 
 ## Getting Started
 
