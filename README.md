@@ -3,7 +3,7 @@
 A new Flutter application.
 
 ##### Session Page
-![logo](/ss/session.jpg?raw=true "sesssion")
+![logo](/ss/session.jpg= 250x "sesssion")
 ##### Break Page
 ![logo](/ss/break.jpg?raw=true "break")
 
