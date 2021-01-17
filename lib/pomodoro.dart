@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pomodoro/pages/break.dart';
 import 'package:pomodoro/pages/session.dart';
+import 'package:pomodoro/settings.dart';
 
 class Pomodoro extends StatefulWidget {
   @override
@@ -36,19 +37,22 @@ class _PomodoroState extends State<Pomodoro> {
         elevation: 1.0,
         title: Text(
           "Pomodoro Clock",
+          style: TextStyle(
+            color: Colors.blue,
+          ),
         ),
         centerTitle: true,
-        // actions: <Widget>[
-        //   IconButton(
-        //     icon: Icon(
-        //       Icons.settings,
-        //     ),
-        //     onPressed: () {
-        //       Navigator.of(context).push(MaterialPageRoute(
-        //           builder: (BuildContext context) => Settings()));
-        //     },
-        //   ),
-        // ],
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.settings,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => Settings()));
+            },
+          ),
+        ],
       ),
       body: currentPage,
       bottomNavigationBar: BottomNavigationBar(
