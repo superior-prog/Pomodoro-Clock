@@ -74,7 +74,6 @@ class _BreakState extends State<Break> {
   _resetTimer() {
     setState(() {
       percent = 0.0;
-      timeInMinute = 5;
       timeInSec = 5 * 60;
       isRunning = false;
       timeStr = _convertToTime(timeInSec);
@@ -193,7 +192,7 @@ class _BreakState extends State<Break> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(vertical: 28.0),
+                      padding: EdgeInsets.symmetric(vertical: 25.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
