@@ -54,10 +54,12 @@ class _SessionState extends State<Session> with SingleTickerProviderStateMixin {
             percent = 1;
           }
         } else {
-          percent = 0.0;
-          timeInMinute = 25;
-          timeStr = _convertToTime(timeInMinute * 60);
-          timer.cancel();
+          setState(() {
+            percent = flag = 0.0;
+            isRunning = false;
+            timeStr = _convertToTime(timeInMinute * 60);
+            timer.cancel();
+          });
         }
       });
     });
